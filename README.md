@@ -165,3 +165,14 @@ This project uses PHPUnit for automated testing.
 To ensure the wallet system is safe from concurrency issues:
 - **Database Transactions**: Critical operations (like debiting the wallet) are wrapped in database transactions.
 - **Row-Level Locking**: The `FOR UPDATE` SQL lock ensures no two requests can modify the wallet balance simultaneously.
+
+
+## API Documentation
+The API endpoints are documented in a Postman collection. Follow the steps below to import and view them:
+
+1. Open Postman.
+2. Click "Import" in the top-left corner.
+3. Select the `api-docs.json` file located in the root of the project.
+4. View all available endpoints and their descriptions.
+
+The collection provides example requests and responses for easy testing.

@@ -1,0 +1,263 @@
+{
+	"info": {
+		"_postman_id": "fa52b81a-dc77-4420-a35c-1a322eff9a96",
+		"name": "Bill-payment-Api",
+		"description": "A simple API for a bill payment application with the following features:\n\n- User authentication (signup/signin).\n    \n- Wallet management (balance checking, funding, and transactions).\n    \n- Airtime purchase simulation.\n    \n- Transaction history.\n    \n- Concurrency-safe wallet operations.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32174986"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 5|tLlYrhhOo35iEQRa36rwySylFGEWU1hoQgjTj3fr3375657e",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"James Adeyemo\",\r\n    \"email\": \"jamesadeyemo@example.com\",\r\n    \"password\": \"password123\",\r\n    \"password_confirmation\": \"password123\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				},
+				"description": "Create New users"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"jamesadeyemo@example.com\",\r\n    \"password\": \"password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				},
+				"description": "Log users with their authenticated login details"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wallet",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorisation}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/wallet/balance",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"wallet",
+						"balance"
+					]
+				},
+				"description": "Fetch wallet balance for authenticated users"
+			},
+			"response": []
+		},
+		{
+			"name": "Fund Wallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorisation}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/wallet/fund",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"wallet",
+						"fund"
+					]
+				},
+				"description": "Users funding their respective wallets"
+			},
+			"response": []
+		},
+		{
+			"name": "Deduct Wallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorisation}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/wallet/deduct",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"wallet",
+						"deduct"
+					]
+				},
+				"description": "Just as the wallet can be funded, it can also be deducted. The endpoint will allow us achieve that"
+			},
+			"response": []
+		},
+		{
+			"name": "Purchase Airtime",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorisation}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 50,\r\n    \"phone_number\": \"1234567890\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/bill/airtime",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"bill",
+						"airtime"
+					]
+				},
+				"description": "This endpoint allow users to purchase airtime from their wallets. Also, users can't purchase more than their wallet balance."
+			},
+			"response": []
+		},
+		{
+			"name": "Transaction History",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorisation}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/wallet/transactions",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"wallet",
+						"transactions"
+					]
+				},
+				"description": "This will fetch all transactions made by a user, including different types (debit and credit)"
+			},
+			"response": []
+		},
+		{
+			"name": "Transaction History Type",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorisation}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/wallet/transactions?type=debit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"wallet",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "debit"
+						}
+					]
+				},
+				"description": "This will fetch particular transactions made by a user just by search, either is credit or debit."
+			},
+			"response": []
+		}
+	]
+}
