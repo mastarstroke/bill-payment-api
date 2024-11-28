@@ -150,13 +150,17 @@ This project uses PHPUnit for automated testing.
 
 2. Run a specific test:
    ```bash
-   php artisan test --filter <test_name>
+   php artisan test --filter test_name
    ```
 
 3. Example test output:
    ```
    PASS  Tests\Feature\WalletTest
-   ✓ it handles concurrent transactions safely
+  ✓ it creates a wallet for a new user                                                                           1.01s
+  ✓ it can fund a wallet                                                                                         0.06s
+  ✓ it can purchase airtime                                                                                      0.07s
+  ✓ it prevents transactions with insufficient balance                                                           0.07s
+  ✓ it handles concurrent transactions safely                                                                    0.22s
    ```
 
 ---
