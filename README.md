@@ -42,7 +42,7 @@ A simple API for a bill payment application with the following features:
 - Laravel >= 10.x
 - Composer
 - MySQL or any compatible database
-- Postman (optional, for API testing)
+- Postman (for API testing)
 
 ---
 
@@ -68,7 +68,7 @@ A simple API for a bill payment application with the following features:
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
    DB_PORT=3306
-   DB_DATABASE=bill_payment
+   DB_DATABASE=billPayment
    DB_USERNAME=root
    DB_PASSWORD=
    ```
@@ -83,12 +83,7 @@ A simple API for a bill payment application with the following features:
    php artisan migrate
    ```
 
-7. Seed the database (optional):
-   ```bash
-   php artisan db:seed
-   ```
-
-8. Start the development server:
+7. Start the development server:
    ```bash
    php artisan serve
    ```
@@ -124,7 +119,7 @@ A simple API for a bill payment application with the following features:
     ```
 
 ### **Transaction History**
-- **Get All Transactions**: `GET /api/transactions` (requires authentication)
+- **Get All Transactions**: `GET /api/wallet/transactions` (requires authentication)
 
 ---
 
