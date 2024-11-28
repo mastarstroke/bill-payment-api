@@ -59,4 +59,12 @@ class WalletController extends Controller
             ], 400);
         }
     }
+
+    public function transactions(Request $request)
+    {
+        $transactions = $request->user()->wallet->transactions;
+
+        return response()->json($transactions, 200);
+    }
+
 }
