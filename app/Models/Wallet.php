@@ -11,41 +11,37 @@ class Wallet extends Model
 
     protected $fillable = ['user_id', 'balance'];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
     }
 
-    public function debit($amount, $description)
+    public function credit($amount, $description = null)
     {
-        return $this->updateWallet($amount, 'debit', $description);
-    }
-
-    public function credit($amount, $description)
-    {
-        return $this->updateWallet($amount, 'credit', $description);
-    }
-
-    private function updateWallet($amount, $type, $description)
-    {
-        return \DB::transaction(function () use ($amount, $type, $description) {
-            $newBalance = $type === 'debit' 
-                ? $this->balance - $amount 
-                : $this->balance + $amount;
-
-            if ($newBalance < 0) {
-                throw new \Exception("Insufficient funds");
-            }
-
-            $this->update(['balance' => $newBalance]);
+        return \DB::transaction(function () use ($amount, $description) {
+            $this->update(['balance' => $this->balance + $amount]);
 
             $this->transactions()->create([
-                'type' => $type,
+                'type' => 'credit',
+                'amount' => $amount,
+                'description' => $description,
+            ]);
+
+            return $this;
+        });
+    }
+
+    public function debit($amount, $description = null)
+    {
+        return \DB::transaction(function () use ($amount, $description) {
+            if ($this->balance < $amount) {
+                throw new \Exception('Insufficient balance.');
+            }
+
+            $this->update(['balance' => $this->balance - $amount]);
+
+            $this->transactions()->create([
+                'type' => 'debit',
                 'amount' => $amount,
                 'description' => $description,
             ]);
