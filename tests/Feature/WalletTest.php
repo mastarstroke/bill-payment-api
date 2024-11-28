@@ -47,11 +47,13 @@ class WalletTest extends TestCase
         $user = User::factory()->create();
         $wallet = $user->wallet;
 
-        // Add initial balance
+        // Initial balance setup
         $wallet->credit(200, 'Initial funding');
+        $this->assertEquals(200, $wallet->balance);
 
-        // Simulate airtime purchase
         $wallet->debit(50, 'Airtime purchase for 1234567890');
+
+        $wallet->refresh();
 
         $this->assertEquals(150, $wallet->balance);
 
@@ -63,11 +65,12 @@ class WalletTest extends TestCase
         ]);
     }
 
+
     /** @test */
     public function it_prevents_transactions_with_insufficient_balance()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Insufficient wallet balance.');
+        $this->expectExceptionMessage('Insufficient balance.');
 
         $user = User::factory()->create();
         $wallet = $user->wallet;
@@ -94,13 +97,10 @@ class WalletTest extends TestCase
             $this->postJson('/api/bill/airtime', $payload),
         ];
 
-        // Assert that at least one request succeeds
         $this->assertTrue($responses[0]->status() === 200 || $responses[1]->status() === 200);
 
-        // Assert that only one transaction was recorded
         $this->assertEquals(1, $wallet->transactions()->where('type', 'debit')->count());
 
-        // Assert the wallet balance was correctly updated
         $wallet->refresh();
         $this->assertEquals(50, $wallet->balance);
     }

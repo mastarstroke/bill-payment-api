@@ -59,6 +59,10 @@ A simple API for a bill payment application with the following features:
 3. Create a `.env` file:
    ```bash
    cp .env.example .env
+
+   or
+
+   copy .env.example .env
    ```
 
 4. Set up your database in the `.env` file:

@@ -39,7 +39,7 @@ class Wallet extends Model
             $wallet = $this->lockForUpdate()->find($this->id);
     
             if ($wallet->balance < $amount) {
-                throw new \Exception('Insufficient balance');
+                throw new \Exception('Insufficient balance.');
             }
     
             // Deduct the amount
