@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Wallet extends Model
 {
@@ -31,26 +32,26 @@ class Wallet extends Model
         });
     }
 
-    public function debit($amount, $description = '')
+    public function debit($amount, $description = null)
     {
-        // Using a database transaction
         return DB::transaction(function () use ($amount, $description) {
-            $this->refresh();
+            // Lock the row for the wallet to prevent race conditions
+            $wallet = $this->lockForUpdate()->find($this->id);
     
-            if ($this->balance < $amount) {
-                throw new \Exception('Insufficient wallet balance.');
+            if ($wallet->balance < $amount) {
+                throw new \Exception('Insufficient balance');
             }
     
-            $this->balance -= $amount;
-            $this->save();
+            // Deduct the amount
+            $wallet->balance -= $amount;
+            $wallet->save();
     
-            $this->transactions()->create([
-                'type' => 'debit',
+            // Record the transaction
+            $wallet->transactions()->create([
                 'amount' => $amount,
+                'type' => 'debit',
                 'description' => $description,
             ]);
-    
-            return $this;
         });
     }
     
