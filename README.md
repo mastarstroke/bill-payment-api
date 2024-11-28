@@ -18,8 +18,6 @@ A simple API for a bill payment application with the following features:
 5. [Usage](#usage)
    - [API Endpoints](#api-endpoints)
 6. [Running Tests](#running-tests)
-7. [Contributing](#contributing)
-8. [License](#license)
 
 ---
 
