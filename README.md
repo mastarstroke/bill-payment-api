@@ -156,11 +156,7 @@ This project uses PHPUnit for automated testing.
 3. Example test output:
    ```
    PASS  Tests\Feature\WalletTest
-  ✓ it creates a wallet for a new user                                                                           1.01s
-  ✓ it can fund a wallet                                                                                         0.06s
-  ✓ it can purchase airtime                                                                                      0.07s
-  ✓ it prevents transactions with insufficient balance                                                           0.07s
-  ✓ it handles concurrent transactions safely                                                                    0.22s
+   ✓ it handles concurrent transactions safely
    ```
 
 ---
