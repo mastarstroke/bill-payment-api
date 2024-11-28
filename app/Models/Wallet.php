@@ -31,22 +31,27 @@ class Wallet extends Model
         });
     }
 
-    public function debit($amount, $description = null)
+    public function debit($amount, $description = '')
     {
-        return \DB::transaction(function () use ($amount, $description) {
+        // Using a database transaction
+        return DB::transaction(function () use ($amount, $description) {
+            $this->refresh();
+    
             if ($this->balance < $amount) {
-                throw new \Exception('Insufficient balance.');
+                throw new \Exception('Insufficient wallet balance.');
             }
-
-            $this->update(['balance' => $this->balance - $amount]);
-
+    
+            $this->balance -= $amount;
+            $this->save();
+    
             $this->transactions()->create([
                 'type' => 'debit',
                 'amount' => $amount,
                 'description' => $description,
             ]);
-
+    
             return $this;
         });
     }
+    
 }

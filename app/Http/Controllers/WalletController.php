@@ -62,9 +62,23 @@ class WalletController extends Controller
 
     public function transactions(Request $request)
     {
-        $transactions = $request->user()->wallet->transactions;
-
+        $wallet = $request->user()->wallet;
+    
+        if (!$wallet) {
+            return response()->json(['error' => 'Wallet not found.'], 404);
+        }
+    
+        $query = $wallet->transactions()->orderBy('created_at', 'desc');
+    
+        if ($request->has('type')) {
+            $query->where('type', $request->type);
+        }
+    
+        $transactions = $query->paginate(10);
+    
         return response()->json($transactions, 200);
     }
+    
+
 
 }
